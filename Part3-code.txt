@@ -1,0 +1,109 @@
+<Camera Imaging Calibration>
+Remote PC 
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera 
+raspberry_pi_camera_publish.launch
+
+Remote PC 
+rqt_image_view
+
+<Extrinsic Camera Calibration>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera 
+raspberry_pi_camera_publish.launch
+
+Remote PC 
+roslaunch turtlebot3_autorace_camera 
+intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera 
+extrinsic_camera_calibration.launch
+mode:=calibration
+
+rqt
+
+<Extrinsic Camera Calibration>
+Remote PC 
+rosrun rqt_reconfigure rqt_reconfigure
+
+<Check Calibration Results>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera 
+raspberry_pi_camera_publish.launch
+
+Remote PC 
+roslaunch turtlebot3_autorace_camera 
+intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera 
+extrinsic_camera_calibration.launch mode:=action
+
+rqt
+
+<With Actual TurtleBot3>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera 
+raspberry_pi_camera_publish.launch
+
+Remote PC 
+roslaunch turtlebot3_autorace_camera 
+intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera 
+extrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_detect 
+detect_lane.launch mode:=calibration
+
+<With Actual TurtleBot3>
+Remote PC 
+rqt
+
+plugins > visualization > Image view
+
+Select three topics at each image view: 
+/detect/image_yellow_lane_marker/compressed 
+/detect/image_lane/compressed
+/detect/image_white_lane_marker/compressed
+
+<With Actual TurtleBot3>
+Remote PC 
+rosrun rqt_reconfigure rqt_reconfigure
+
+<With Actual TurtleBot3>
+Close 
+rosrun rqt_reconfigure rqt_reconfigure
+roslaunch turtlebot3_autorace_detect 
+detect_lane.launch mode:=calibration
+
+Remote PC ➔ Check if the results come out correctly. 
+roslaunch turtlebot3_autorace_detect 
+detect_lane.launch mode:=action
+
+roslaunch turtlebot3_autorace_driving 
+turtlebot3_autorace_control_lane.launch
+
+SBC
+roslaunch turtlebot3_bringup turtlebot3_robot.launch
+
+<Understand AutoRace Code>
+$ roscore
+
+$ roslaunch turtlebot3_bringup turtlebot3_robot.launch
+
+$ roslaunch turtlebot3_autorace_camera 
+intrinsic_camera_calibration.launch mode:=action
+
+$ roslaunch turtlebot3_autorace_core 
+turtlebot3_autorace_core.launch mission:= MISSION
