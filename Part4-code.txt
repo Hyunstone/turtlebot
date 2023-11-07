@@ -1,0 +1,139 @@
+<Traffic Sign Update>
+Delete the old image date 
+catkin_ws > turtlebot3_autorace_2020 > 
+turtlebot3_autorace_detect > image
+
+Git clone new image data 
+Open the terminal,
+
+cd Desktop
+cd catkin_ws
+cd src
+cd turtlebot3_autorace_2020
+cd turtlebot3_autorace_detect
+git clone https://github.com/iRASC-Lab/AutoRace-ImageSet.git
+
+<Intersection Detection>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera raspberry_pi_camera_publish.launch
+
+Remote PC 
+roslaunch turtlebot3_autorace_camera intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera extrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_detect detect_sign.launch mission:=intersection
+
+<Intersection Detection>
+Remote PC
+Rqt_image_view
+
+/detect/image_traffic_sign/compressed
+
+<Test with turtlebot3_autorace_core launch>
+Hint
+roslaunch turtlebot3_autorace_core turtlebot3_autorace_core.launch mission:=intersection
+
+<Traffic Lights Detection and Calibration>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera raspberry_pi_camera_publish.launch
+
+Remote PC
+roslaunch turtlebot3_autorace_camera intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera extrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_detect detect_traffic_light.launch mode:=calibration
+
+<Traffic Lights Detection and Calibration>
+Remote PC
+rqt
+
+Select 4 topics
+/detect/image_red_light
+/detect/image_yellow_light
+/detect/image_green_light
+/detect/image_traffic_light
+
+<Traffic Lights Detection and Calibration>
+Remote PC
+rosrun rqt_reconfigure rqt_reconfigure
+
+<Test Traffic Lights Detection>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera raspberry_pi_camera_publish.launch
+
+Remote PC
+roslaunch turtlebot3_autorace_camera intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera extrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_detect detect_traffic_light.launch
+
+rqt_image_view
+
+Check each topics: 
+/detect/image_red_light, 
+/detect/image_yellow_light, 
+/detect/image_green_light
+
+<Test with turtlebot3_autorace_core launch>
+Hint
+roslaunch turtlebot3_autorace_core turtlebot3_autorace_core.launch mission:=traffic_light
+
+<Level Crossing Detection and Calibration>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera raspberry_pi_camera_publish.launch
+
+Remote PC 
+roslaunch turtlebot3_autorace_camera intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera extrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_detect detect_level_crossing.launch mode:=calibration
+
+<Level Crossing Detection and Calibration>
+Remote PC 
+rqt
+
+/detect/image_level_color_filtered/compressed
+/detect/image_level/compressed
+
+<Level Crossing Detection and Calibration>
+Remote PC 
+rosrun rqt_reconfigure rqt_reconfigure
+
+<Test Level Crossing Detection>
+Remote PC
+roscore
+
+SBC
+roslaunch turtlebot3_autorace_camera raspberry_pi_camera_publish.launch
+
+Remote PC 
+roslaunch turtlebot3_autorace_camera intrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_camera extrinsic_camera_calibration.launch mode:=action
+
+roslaunch turtlebot3_autorace_detect detect_level_crossing.launch
+
+rqt_image_view
+
+Check the image topic: 
+/detect/image_level/compressed
+
+<Test with turtlebot3_autorace_core launch>
+Hint
+roslaunch turtlebot3_autorace_core turtlebot3_autorace_core.launch mission:=level_crossing
